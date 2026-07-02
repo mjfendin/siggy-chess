@@ -1,0 +1,15 @@
+#!/bin/bash
+cd /root/siggy-chess-app
+echo "🚀 Deploying Siggy Chess to Vercel..."
+echo ""
+echo "📦 Project: Siggy Chess"
+echo "🌐 Framework: Next.js 15"
+echo "⛓️ Blockchain: Ritual Chain"
+echo ""
+echo "To deploy, run:"
+echo "  cd /root/siggy-chess-app"
+echo "  vercel --prod"
+echo ""
+echo "Or push to GitHub and connect to Vercel:"
+echo "  git remote add origin YOUR_REPO"
+echo "  git push -u origin main"
