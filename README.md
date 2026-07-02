@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Siggy Chess
 
-## Getting Started
+AI-powered chess game on Ritual Chain with TEE-secured moves.
 
-First, run the development server:
+## 🚀 Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎮 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- ♟️ Play chess against Ritual AI
+- 🔐 TEE-secured AI moves
+- 🎨 Beautiful Siggy-themed UI
+- ⛓️ Fully on-chain game state
+- 📊 Move history tracking
+- 🎯 Adjustable difficulty (1-10)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Tech Stack
 
-## Learn More
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Blockchain**: Wagmi, Viem
+- **Chess**: chess.js, react-chessboard
+- **Styling**: Tailwind CSS
+- **AI Backend**: Python + Web3.py
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create `.env.local`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+NEXT_PUBLIC_RITUAL_RPC=https://rpc.ritualfoundation.org
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x3a3A628a416A564ba1D968526C2b6889c1B92d4e
+NEXT_PUBLIC_RITUAL_AGENT=0x759249105579A9C2286998E9C207eA059BB3cA1d
+```
 
-## Deploy on Vercel
+## 🤖 Run Ritual Agent
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pip install web3 python-chess
+python ritual-agent.py
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 Deploy to Vercel
+
+```bash
+vercel
+```
+
+## 📝 Smart Contract
+
+- **Address**: `0x3a3A628a416A564ba1D968526C2b6889c1B92d4e`
+- **Chain**: Ritual Testnet (1979)
+- **Explorer**: https://explorer.ritualfoundation.org/address/0x3a3A628a416A564ba1D968526C2b6889c1B92d4e
+
+## 🎯 How It Works
+
+1. Player connects wallet and creates game
+2. Player makes move → emits `PlayerMove` event
+3. Ritual Agent listens to event
+4. AI calculates best move in TEE
+5. AI calls `aiMove()` → updates on-chain state
+6. Frontend updates board automatically
+
+## 📄 License
+
+MIT
