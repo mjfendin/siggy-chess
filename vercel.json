@@ -1,17 +1,7 @@
 {
-  "name": "siggy-chess",
-  "version": "2",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "env": {
-    "NEXT_PUBLIC_RITUAL_RPC": "https://rpc.ritualfoundation.org",
-    "NEXT_PUBLIC_CONTRACT_ADDRESS": "0x3a3A628a416A564ba1D968526C2b6889c1B92d4e",
-    "NEXT_PUBLIC_RITUAL_AGENT": "0x759249105579A9C2286998E9C207eA059BB3cA1d"
-  },
-  "regions": ["iad1"],
-  "public": false
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
 }
