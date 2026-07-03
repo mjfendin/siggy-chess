@@ -71,7 +71,7 @@ export function ChessGame() {
     }
   }
 
-  const makeMove = async (sourceSquare: string, targetSquare: string) => {
+  const makeMove = (sourceSquare: string, targetSquare: string): boolean => {
     if (!gameId || !address) return false
 
     const move = game.move({
@@ -95,12 +95,18 @@ export function ChessGame() {
         onSuccess: () => {
           setStatus('Waiting for AI...')
           refetch()
+        },
+        onError: (error) => {
+          console.error('Move error:', error)
+          game.undo()
+          setGame(new Chess(game.fen()))
         }
       })
       return true
     } catch (error) {
       console.error('Move error:', error)
       game.undo()
+      setGame(new Chess(game.fen()))
       return false
     }
   }
