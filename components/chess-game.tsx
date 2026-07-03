@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react'
 import { Chessboard } from 'react-chessboard'
 import { Chess } from 'chess.js'
-import { useAccount, useWriteContract, useReadContract, useWatchContractEvent } from 'wagmi'
+import { useAccount, useWriteContract, useReadContract, useWatchContractEvent, useSwitchChain } from 'wagmi'
 import { SIGGY_CHESS_ABI, SIGGY_CHESS_ADDRESS, RITUAL_AGENT_ADDRESS, GameStatus, GameStatusLabel } from '@/lib/contracts'
+import { ritual } from '@/lib/wagmi'
 
 export function ChessGame() {
-  const { address } = useAccount()
+  const { address, chain } = useAccount()
+  const { switchChain } = useSwitchChain()
   const [game, setGame] = useState(new Chess())
   const [gameId, setGameId] = useState<number | null>(null)
   const [difficulty, setDifficulty] = useState(5)
@@ -52,6 +54,17 @@ export function ChessGame() {
   const createGame = async () => {
     if (!address) return
     
+    // Check if we're on Ritual chain
+    if (chain?.id !== ritual.id) {
+      try {
+        await switchChain({ chainId: ritual.id })
+      } catch (error) {
+        console.error('Failed to switch chain:', error)
+        setStatus('Please switch to Ritual chain')
+        return
+      }
+    }
+    
     try {
       writeContract({
         address: SIGGY_CHESS_ADDRESS,
@@ -73,6 +86,12 @@ export function ChessGame() {
 
   const makeMove = (sourceSquare: string, targetSquare: string): boolean => {
     if (!gameId || !address) return false
+
+    // Check if we're on Ritual chain
+    if (chain?.id !== ritual.id) {
+      setStatus('Please switch to Ritual chain')
+      return false
+    }
 
     const move = game.move({
       from: sourceSquare,
@@ -121,6 +140,11 @@ export function ChessGame() {
             <p className="text-purple-300">{status}</p>
             {gameId !== null && (
               <p className="text-sm text-purple-400 mt-1">Game ID: {gameId}</p>
+            )}
+            {chain && chain.id !== ritual.id && (
+              <p className="text-sm text-red-400 mt-2">
+                ⚠️ Wrong network! Please switch to Ritual chain.
+              </p>
             )}
           </div>
           {!gameId && (
