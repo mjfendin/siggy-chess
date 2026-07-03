@@ -2,3 +2,10 @@ node_modules
 .next
 .git
 *.log
+.env.local
+.DS_Store
+*.md
+deploy*.sh
+push*.sh
+AGENTS.md
+.vercelignore
