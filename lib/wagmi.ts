@@ -1,8 +1,8 @@
 import { http, createConfig } from 'wagmi'
-import { ritualTestnet } from 'wagmi/chains'
+import { defineChain } from 'viem'
 
 // Define Ritual Chain
-export const ritual = {
+export const ritual = defineChain({
   id: 1979,
   name: 'Ritual',
   nativeCurrency: { name: 'Ritual', symbol: 'RITUAL', decimals: 18 },
@@ -13,7 +13,7 @@ export const ritual = {
     default: { name: 'Ritual Explorer', url: 'https://explorer.ritualfoundation.org' },
   },
   testnet: true,
-} as const
+})
 
 export const config = createConfig({
   chains: [ritual],
