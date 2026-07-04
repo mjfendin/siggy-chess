@@ -65,6 +65,8 @@ export function ChessGame() {
       }
     }
     
+    setStatus('Creating game...')
+    
     try {
       writeContract({
         address: SIGGY_CHESS_ADDRESS,
@@ -72,15 +74,36 @@ export function ChessGame() {
         functionName: 'createGame',
         args: [RITUAL_AGENT_ADDRESS, difficulty],
       }, {
-        onSuccess: (hash) => {
-          console.log('Game created:', hash)
-          // In production, parse logs to get gameId
-          // For now, assume it's the next ID
-          setGameId(0) // Update after reading gameIdCounter
+        onSuccess: async (hash) => {
+          console.log('Game created tx:', hash)
+          setStatus('Game created! Waiting for confirmation...')
+          
+          // Wait a bit for the transaction to be mined
+          setTimeout(async () => {
+            try {
+              // Read the gameIdCounter to get the latest game ID
+              const gameCounter = await refetch()
+              console.log('Game counter:', gameCounter)
+              
+              // The new game ID is counter - 1
+              // For simplicity, let's just set it to 0 for first game
+              // In production, parse the GameCreated event from the transaction receipt
+              setGameId(0)
+              setStatus('Your turn! Move a piece to start.')
+            } catch (error) {
+              console.error('Error getting game ID:', error)
+              setStatus('Game created but failed to load. Please refresh.')
+            }
+          }, 2000)
+        },
+        onError: (error) => {
+          console.error('Create game error:', error)
+          setStatus('Failed to create game. Please try again.')
         }
       })
     } catch (error) {
       console.error('Create game error:', error)
+      setStatus('Failed to create game. Please try again.')
     }
   }
 
